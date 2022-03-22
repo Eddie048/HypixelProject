@@ -217,15 +217,18 @@ def main():
             ign_list = get_text_from_image(tab_screenshot)
             do_threat_analysis(ign_list, key)
         elif user_input == "2":
-            global thread_state
-            if thread_state:
-                thread_state = False
-                print("Automatic detection turned off.")
-            else:
-                thread_state = True
-                file_finder = Thread(target=check_for_file)
-                file_finder.start()
-                print("Automatic detection turned on.")
+            # this is currently not working
+            print("This functionality is currently not working.")
+
+            # global thread_state
+            # if thread_state:
+            #     thread_state = False
+            #     print("Automatic detection turned off.")
+            # else:
+            #     thread_state = True
+            #     file_finder = Thread(target=check_for_file)
+            #     file_finder.start()
+            #     print("Automatic detection turned on.")
         else:
             temp_result = player.get_player(user_input, key)
 
