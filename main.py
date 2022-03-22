@@ -30,13 +30,13 @@ def get_screenshot():
     # searches for part of the ping icon as a reference
     location = pyautogui.locateOnScreen("Marker.png")
 
-    # if this is a retina display, the coordinates will be twice what they should be
-    if RETINA_DISPLAY:
-        location = (location[0]/2 - 1, location[1]/2)
-
     # if the location was not found, exit the function and display an error message
     if location is None:
         return "None"
+
+    # if this is a retina display, the coordinates will be twice what they should be
+    if RETINA_DISPLAY:
+        location = (location[0]/2 - 1, location[1]/2)
 
     # finds the leftmost part of the usernames, including removing the player head icons
     left = SCREEN_WIDTH - (location[0] + 8) + 27
