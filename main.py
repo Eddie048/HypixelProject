@@ -80,7 +80,10 @@ def get_text_from_image(img):
                 else:
                     arr[i].append(0)
 
-        ign_return_list.append(image_reader.read_string(arr))
+        # strings of length 0 aren't usernames
+        temp_ign = image_reader.read_string(arr)
+        if len(temp_ign) > 0:
+            ign_return_list.append(temp_ign)
 
     return ign_return_list
 
