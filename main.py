@@ -192,18 +192,48 @@ def main():
     # confirmation message
     print("Key Confirmed\n")
 
-    print("0: Exit program\n1: Run once\n2: Toggle Automatic\nIGN: Analyze IGN")
     user_input = ""
 
     # main loop for input
     while user_input != 0:
         # border to easily see new commands
         print("=============================================\n")
+        print("Main Menu:\n0: Exit program\n1: Settings\n2: Run once\n3: Toggle Automatic\nIGN: Analyze IGN\n")
         user_input = str(input("Enter Number or IGN to look up: "))
 
         if user_input == "0":
             exit()
         elif user_input == "1":
+            # variable for input for settings menu
+            settings_input = ""
+
+            # loop for using settings menu
+            while settings_input != "0":
+                # border to easily see settings differences
+                print("=============================================\n")
+                print("Settings:\n0: Exit to main menu\n1: How to use?\n2: API Key\n3: Ignored IGNs\n4: Time delay")
+                print("5: Save usernames - [whether this is true or false]\n")
+                settings_input = input("Enter a menu item: ")
+
+                if settings_input == "0":
+                    pass
+                elif settings_input == "1":
+                    print("Here is how to use this program:")
+                    # TODO: Add explanation
+                    print("Settings explanations")
+                    # TODO: Add settings explanations
+                elif settings_input == "2":
+                    print("Change API Key Here")
+                elif settings_input == "3":
+                    print("Change ignored IGN list here")
+                elif settings_input == "4":
+                    print("Change time delay here")
+                elif settings_input == "5":
+                    print("Toggle saving usernames")
+                else:
+                    print("Input not recognized")
+
+        elif user_input == "2":
             # delay for user to switch tabs or whatever
             time.sleep(2)
     
@@ -216,7 +246,7 @@ def main():
 
             ign_list = get_text_from_image(tab_screenshot)
             do_threat_analysis(ign_list, key)
-        elif user_input == "2":
+        elif user_input == "3":
             # this is currently not working
             print("This functionality is currently not working.")
 

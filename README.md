@@ -13,3 +13,5 @@ I am currently working on another functionality:
 To be able to take a screenshot of the screen using the default screen capture tool.
 The program would then find the screenshot automatically and run the above functionality on it.
 This has not yet been implemented.
+
+There is also a rudimentary settings menu that has no effect, functionality will be added later.
