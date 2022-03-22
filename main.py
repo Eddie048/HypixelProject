@@ -5,6 +5,7 @@ import os
 import image_reader
 import player
 from threading import Thread
+import requests
 
 # Ignore these usernames, anyone who is in your party should be in this list
 # TODO: Move this to a file
@@ -92,7 +93,7 @@ def notify(title, text):
 
 
 # takes in a list of usernames (IGNs), gives notifications and prints a threat analysis
-def do_threat_analysis(ign_list):
+def do_threat_analysis(ign_list, key):
 
     # initialize lists of types of players
     nicks = []
@@ -104,7 +105,7 @@ def do_threat_analysis(ign_list):
         if ignored_usernames.__contains__(ign.lower()):
             continue
 
-        threat_anal = player.get_player(ign)
+        threat_anal = player.get_player(ign, key)
         if threat_anal == ["", ""] or threat_anal is None:
             continue
         elif threat_anal == "Nick":
@@ -178,6 +179,13 @@ def check_for_file():
 
 
 def main():
+    print("API Key required!")
+    key = str(input("Enter Key: "))
+
+    while str(requests.get("https://api.hypixel.net/key?key=" + key)) != "<Response [200]>":
+        print("That is not a valid key.")
+        key = str(input("Enter Key: "))
+
     print("0: Exit program\n1: Run once\n2: Toggle Automatic\nIGN: Analyze IGN")
     user_input = ""
 
@@ -200,7 +208,7 @@ def main():
                 continue
 
             ign_list = get_text_from_image(tab_screenshot)
-            do_threat_analysis(ign_list)
+            do_threat_analysis(ign_list, key)
         elif user_input == "2":
             global thread_state
             if thread_state:
@@ -212,7 +220,7 @@ def main():
                 file_finder.start()
                 print("Automatic detection turned on.")
         else:
-            temp_result = player.get_player(user_input)
+            temp_result = player.get_player(user_input, key)
 
             if temp_result is None or temp_result == "Nick":
                 print("Player not found or input not recognized.\n")

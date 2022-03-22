@@ -1,9 +1,5 @@
 import requests
 
-# API Key from hypixel, use command '/api' or '/api new' in hypixel
-# TODO: do this better, maybe have the user enter it?
-API_KEY = "bf3a9ff4-aa5c-4fc5-8aef-34f9146eff30"
-
 # gamemodes to check for in JSON file
 gamemodes = ["four_four_", "eight_two_", "eight_one_", "four_three_"]
 
@@ -45,12 +41,12 @@ def update_threat(stat_num, threat_criteria, sweat_criteria, stat_string):
 
 
 # takes in a player's ign and returns data about them
-def get_player(player_name):
+def get_player(player_name, key):
     global data
     data = requests.get(
         url="https://api.hypixel.net/player",
         params={
-            "key": API_KEY,
+            "key": key,
             "name": player_name
         }
     ).json()
