@@ -1,5 +1,4 @@
 import subprocess
-
 import pyautogui
 import time
 import os
@@ -46,9 +45,9 @@ def get_screenshot():
 
     # take screenshot of the players
     if RETINA_DISPLAY:
-        return pyautogui.screenshot("screenshot.png", region=(left*2, 120, width*2, 54 * 16))
+        return pyautogui.screenshot(region=(left*2, 120, width*2, 54 * 16))
     else:
-        return pyautogui.screenshot("screenshot.png", region=(left, 60, width, 27 * 16))
+        return pyautogui.screenshot(region=(left, 60, width, 27 * 16))
 
 
 # takes in an image, returns a list of the lines of text in the image
