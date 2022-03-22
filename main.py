@@ -182,19 +182,23 @@ def check_for_file():
 
 
 def main():
-    print("API Key required!")
+    print("API Key required!\nUse command '/api new' in hypixel to get an API key.")
     key = str(input("Enter Key: "))
 
     while str(requests.get("https://api.hypixel.net/key?key=" + key)) != "<Response [200]>":
         print("That is not a valid key.")
         key = str(input("Enter Key: "))
 
+    # confirmation message
+    print("Key Confirmed\n")
+
     print("0: Exit program\n1: Run once\n2: Toggle Automatic\nIGN: Analyze IGN")
     user_input = ""
 
     # main loop for input
     while user_input != 0:
-
+        # border to easily see new commands
+        print("=============================================\n")
         user_input = str(input("Enter Number or IGN to look up: "))
 
         if user_input == "0":
