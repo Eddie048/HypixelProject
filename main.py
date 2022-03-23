@@ -153,7 +153,7 @@ def check_for_file():
 # def check_for_file():
 #
 #     # location of screenshots
-#     path = "/Users/edwardstump/Library/Application Support/minecraft/screenshots"
+#     path = ENTER PATH
 #     saved_set = set()
 #
 #     # initialize the saved set of all screenshot files
@@ -175,7 +175,7 @@ def check_for_file():
     #     if len(list_names) < len(temp):
     #         file = list((set(temp) - set(list_names)))[0]
     #         print(file)
-    #       temp_image = Image.open("/Users/edwardstump/Library/Application Support/minecraft/screenshots/" + file, "r")
+    #       temp_image = Image.open("PATH" + file, "r")
     #         ign_list = get_text_from_image(temp_image, 16)
     #         do_threat_analysis(ign_list)
     #         list_names = temp
