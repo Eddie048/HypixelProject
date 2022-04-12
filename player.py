@@ -58,7 +58,7 @@ def get_player(player_name, key):
     if data is None:
         return
     if not data["success"]:
-        return
+        return "Repeat"
     if data['player'] == "None" or data['player'] is None:
         return "Nick"
 

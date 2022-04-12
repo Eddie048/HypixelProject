@@ -113,6 +113,9 @@ def do_threat_analysis(ign_list, key):
             continue
         elif threat_anal == "Nick":
             nicks.append(ign)
+        elif threat_anal == "Repeat":
+            continue
+            # TODO: Check recents dictionary
         else:
             result += threat_anal[0] + "\n" + threat_anal[1] + "\n"
             threats.append(ign)
