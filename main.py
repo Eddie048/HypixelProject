@@ -24,6 +24,9 @@ SCREEN_WIDTH = pyautogui.size()[0]
 # some behavior surrounding screenshots and searching on the screen changes if using a retina display
 RETINA_DISPLAY = (subprocess.call("system_profiler SPDisplaysDataType | grep -i 'retina'", shell=True) == 0)
 
+# dictionary to save player names and their threat analysis
+saved_players = {}
+
 
 # returns a screenshot with the specified number of players, up to 14
 def get_screenshot():
@@ -109,15 +112,18 @@ def do_threat_analysis(ign_list, key):
             continue
 
         threat_anal = player.get_player(ign, key)
+
+        if threat_anal == "Repeat":
+            threat_anal = saved_players[ign]
+
         if threat_anal == ["", ""] or threat_anal is None:
-            continue
+            saved_players[ign] = threat_anal
         elif threat_anal == "Nick":
+            saved_players[ign] = threat_anal
             nicks.append(ign)
-        elif threat_anal == "Repeat":
-            continue
-            # TODO: Check recents dictionary
         else:
             result += threat_anal[0] + "\n" + threat_anal[1] + "\n"
+            saved_players[ign] = threat_anal
             threats.append(ign)
 
             if threat_anal[1] != "":
@@ -268,8 +274,13 @@ def main():
             if temp_result is None or temp_result == "Nick":
                 print("Player not found or input not recognized.\n")
             elif temp_result == ["", ""]:
+                saved_players[user_input] = temp_result
                 print("This player is not a threat.")
+            elif temp_result == "Repeat":
+                temp_result = saved_players[user_input]
+                print(f"{temp_result[0]}\n{temp_result[1]}")
             else:
+                saved_players[user_input] = temp_result
                 print(f"{temp_result[0]}\n{temp_result[1]}")
             continue
 
