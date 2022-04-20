@@ -28,30 +28,14 @@ RETINA_DISPLAY = (subprocess.call("system_profiler SPDisplaysDataType | grep -i 
 saved_players = {}
 
 
-# returns a screenshot with the specified number of players, up to 14
 def get_screenshot():
-    # searches for part of the ping icon as a reference
-    location = pyautogui.locateOnScreen("Marker.png")
-
-    # if the location was not found, exit the function and display an error message
-    if location is None:
-        return "None"
-
-    # if this is a retina display, the coordinates will be twice what they should be
-    if RETINA_DISPLAY:
-        location = (location[0] / 2 - 1, location[1] / 2)
-
-    # finds the leftmost part of the usernames, including removing the player head icons
-    left = SCREEN_WIDTH - (location[0] + 8) + 27
-
-    # the exact maximum width of the usernames, including removing the player head and ping icons
-    width = ((location[0] + 8) - (SCREEN_WIDTH / 2)) * 2 - (27 + 36)
-
     # take screenshot of the players
+    screenshot_region = (520, 60, 400, 27*16)
+
     if RETINA_DISPLAY:
-        return pyautogui.screenshot(region=(left * 2, 120, width * 2, 54 * 16))
+        return pyautogui.screenshot(region=tuple(i * 2 for i in screenshot_region))
     else:
-        return pyautogui.screenshot(region=(left, 60, width, 27 * 16))
+        return pyautogui.screenshot(region=screenshot_region)
 
 
 # takes in an image, returns a list of the lines of text in the image
