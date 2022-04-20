@@ -106,6 +106,9 @@ def do_threat_analysis(ign_list, key):
             elif err.args[0] == "Repeat":
                 if ign in saved_players:
                     threat_anal = saved_players[ign]
+                    if threat_anal == "Nick":
+                        nicks.append(ign)
+                        continue
                 else:
                     print("Warning: Player " + ign + " currently on cooldown.")
                     continue
