@@ -130,6 +130,7 @@ def do_threat_analysis(ign_list, key):
 
     print(str(len(ign_list)) + " players found:")
     print(*ign_list, sep=", ")
+    print("\n")
 
     # TODO: save list of usernames
 
@@ -149,7 +150,7 @@ def do_threat_analysis(ign_list, key):
         notification += "Threats: " + str(len(threats))
         print(*threats, sep=", ")
 
-    print(result)
+    print("\n" + result)
 
     if len(notification) == 0:
         notify("Done!", "No threats here")
