@@ -190,6 +190,81 @@ def check_for_file():
     #         list_names = temp
 
 
+# the settings menu
+def settings():
+    # variable for input for settings menu
+    settings_input = ""
+
+    # loop for using settings menu
+    while settings_input != "0":
+        # border to easily see settings differences
+        print("=============================================\n")
+        print("Settings:\n0: Exit to main menu\n1: How to use?\n2: API Key\n3: Ignored IGNs\n4: Time delay")
+        print("5: Save usernames - [whether this is true or false]\n")
+        settings_input = input("Enter a menu item: ")
+
+        if settings_input == "0":
+            pass
+        elif settings_input == "1":
+            print("Here is how to use this program:")
+            # TODO: Add explanation
+            print("Settings explanations")
+            # TODO: Add settings explanations
+        elif settings_input == "2":
+            print("Change API Key Here")
+        elif settings_input == "3":
+            print("Change ignored IGN list here")
+        elif settings_input == "4":
+            print("Change time delay here")
+        elif settings_input == "5":
+            print("Toggle saving usernames")
+        else:
+            print("Input not recognized")
+
+
+def run_screen_analysis(key):
+    # delay for user to switch tabs or whatever
+    time.sleep(2)
+
+    # take screenshot of tab menu
+    tab_screenshot = get_screenshot()
+    if tab_screenshot == "None":
+        print("Error: Reference Not Found")
+        notify("Error", "Reference not found")
+        return
+
+    ign_list = get_text_from_image(tab_screenshot)
+    do_threat_analysis(ign_list, key)
+
+
+def automatic_detection():
+    global thread_state
+    if thread_state:
+        thread_state = False
+        print("Automatic detection turned off.")
+    else:
+        thread_state = True
+        file_finder = Thread(target=check_for_file)
+        file_finder.start()
+        print("Automatic detection turned on.")
+
+
+def analyze_ign(user_input, key):
+    temp_result = player.get_player(user_input, key)
+
+    if temp_result is None or temp_result == "Nick":
+        print("Player not found or input not recognized.\n")
+    elif temp_result == ["", ""]:
+        saved_players[user_input] = temp_result
+        print("This player is not a threat.")
+    elif temp_result == "Repeat":
+        temp_result = saved_players[user_input]
+        print(f"{temp_result[0]}\n{temp_result[1]}")
+    else:
+        saved_players[user_input] = temp_result
+        print(f"{temp_result[0]}\n{temp_result[1]}")
+
+
 def main():
     print("API Key required!\nUse command '/api new' in hypixel to get an API key.")
     key = str(input("Enter Key: "))
@@ -213,76 +288,16 @@ def main():
         if user_input == "0":
             exit()
         elif user_input == "1":
-            # variable for input for settings menu
-            settings_input = ""
-
-            # loop for using settings menu
-            while settings_input != "0":
-                # border to easily see settings differences
-                print("=============================================\n")
-                print("Settings:\n0: Exit to main menu\n1: How to use?\n2: API Key\n3: Ignored IGNs\n4: Time delay")
-                print("5: Save usernames - [whether this is true or false]\n")
-                settings_input = input("Enter a menu item: ")
-
-                if settings_input == "0":
-                    pass
-                elif settings_input == "1":
-                    print("Here is how to use this program:")
-                    # TODO: Add explanation
-                    print("Settings explanations")
-                    # TODO: Add settings explanations
-                elif settings_input == "2":
-                    print("Change API Key Here")
-                elif settings_input == "3":
-                    print("Change ignored IGN list here")
-                elif settings_input == "4":
-                    print("Change time delay here")
-                elif settings_input == "5":
-                    print("Toggle saving usernames")
-                else:
-                    print("Input not recognized")
-
+            settings()
         elif user_input == "2":
-            # delay for user to switch tabs or whatever
-            time.sleep(2)
-    
-            # take screenshot of tab menu
-            tab_screenshot = get_screenshot()
-            if tab_screenshot == "None":
-                print("Error: Reference Not Found")
-                notify("Error", "Reference not found")
-                continue
-
-            ign_list = get_text_from_image(tab_screenshot)
-            do_threat_analysis(ign_list, key)
+            run_screen_analysis(key)
         elif user_input == "3":
             # this is currently not working
+            # automatic_detection()
+
             print("This functionality is currently not working.")
-
-            # global thread_state
-            # if thread_state:
-            #     thread_state = False
-            #     print("Automatic detection turned off.")
-            # else:
-            #     thread_state = True
-            #     file_finder = Thread(target=check_for_file)
-            #     file_finder.start()
-            #     print("Automatic detection turned on.")
         else:
-            temp_result = player.get_player(user_input, key)
-
-            if temp_result is None or temp_result == "Nick":
-                print("Player not found or input not recognized.\n")
-            elif temp_result == ["", ""]:
-                saved_players[user_input] = temp_result
-                print("This player is not a threat.")
-            elif temp_result == "Repeat":
-                temp_result = saved_players[user_input]
-                print(f"{temp_result[0]}\n{temp_result[1]}")
-            else:
-                saved_players[user_input] = temp_result
-                print(f"{temp_result[0]}\n{temp_result[1]}")
-            continue
+            analyze_ign(user_input, key)
 
 
 if __name__ == "__main__":
