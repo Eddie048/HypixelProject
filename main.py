@@ -39,7 +39,7 @@ def get_screenshot():
 
     # if this is a retina display, the coordinates will be twice what they should be
     if RETINA_DISPLAY:
-        location = (location[0]/2 - 1, location[1]/2)
+        location = (location[0] / 2 - 1, location[1] / 2)
 
     # finds the leftmost part of the usernames, including removing the player head icons
     left = SCREEN_WIDTH - (location[0] + 8) + 27
@@ -49,7 +49,7 @@ def get_screenshot():
 
     # take screenshot of the players
     if RETINA_DISPLAY:
-        return pyautogui.screenshot(region=(left*2, 120, width*2, 54 * 16))
+        return pyautogui.screenshot(region=(left * 2, 120, width * 2, 54 * 16))
     else:
         return pyautogui.screenshot(region=(left, 60, width, 27 * 16))
 
@@ -100,7 +100,6 @@ def notify(title, text):
 
 # takes in a list of usernames (IGNs), gives notifications and prints a threat analysis
 def do_threat_analysis(ign_list, key):
-
     # initialize lists of types of players
     nicks = []
     threats = []
@@ -129,24 +128,27 @@ def do_threat_analysis(ign_list, key):
             if threat_anal[1] != "":
                 sweats.append(ign)
 
-    notification = ""
-    print(ign_list)
+    print(str(len(ign_list)) + " players found:")
+    print(*ign_list, sep=", ")
 
     # TODO: save list of usernames
 
+    notification = ""
     if len(nicks) > 0:
         print(f"Nicks: {str(len(nicks))}")
         notification += "Nicks: " + str(len(nicks)) + " "
-        print(nicks)
-    if len(threats) > 0:
-        print(f"Threats: {str(len(threats))}")
-        notification += "Threats: " + str(len(threats)) + " "
-        print(threats)
+        print(*nicks, sep=", ")
 
     if len(sweats) > 0:
         print(f"Sweats: {str(len(sweats))}")
-        notification += "Sweats: " + str(len(sweats))
-        print(sweats)
+        notification += "Sweats: " + str(len(sweats)) + " "
+        print(*sweats, sep=", ")
+
+    if len(threats) > 0:
+        print(f"Threats: {str(len(threats))}")
+        notification += "Threats: " + str(len(threats))
+        print(*threats, sep=", ")
+
     print(result)
 
     if len(notification) == 0:
@@ -158,6 +160,8 @@ def do_threat_analysis(ign_list, key):
 # temporary function, to be replaced with code below once working
 def check_for_file():
     pass
+
+
 # # automatic system, constantly checks for new screenshots in the screenshot folder
 # def check_for_file():
 #
@@ -171,23 +175,23 @@ def check_for_file():
 #         if os.path.isfile(fullpath):
 #             saved_set.add(file)
 
-    # while thread_state:
-    #     time.sleep(0.2)
-    #     temp_set = set()
-    #
-    #     for file in os.listdir(path):
-    #         fullpath = os.path.join(path, file)
-    #         if os.path.isfile(fullpath):
-    #             temp_set.add(file)
-    #
-    #
-    #     if len(list_names) < len(temp):
-    #         file = list((set(temp) - set(list_names)))[0]
-    #         print(file)
-    #       temp_image = Image.open("PATH" + file, "r")
-    #         ign_list = get_text_from_image(temp_image, 16)
-    #         do_threat_analysis(ign_list)
-    #         list_names = temp
+# while thread_state:
+#     time.sleep(0.2)
+#     temp_set = set()
+#
+#     for file in os.listdir(path):
+#         fullpath = os.path.join(path, file)
+#         if os.path.isfile(fullpath):
+#             temp_set.add(file)
+#
+#
+#     if len(list_names) < len(temp):
+#         file = list((set(temp) - set(list_names)))[0]
+#         print(file)
+#       temp_image = Image.open("PATH" + file, "r")
+#         ign_list = get_text_from_image(temp_image, 16)
+#         do_threat_analysis(ign_list)
+#         list_names = temp
 
 
 # the settings menu
