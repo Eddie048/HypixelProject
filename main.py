@@ -94,23 +94,35 @@ def do_threat_analysis(ign_list, key):
         if ignored_usernames.__contains__(ign.lower()):
             continue
 
-        threat_anal = player.get_player(ign, key)
+        try:
+            threat_anal = player.get_player(ign, key)
+        except NameError as err:
+            if err.args[0] == "No data":
+                continue
+            elif err.args[0] == "Nick":
+                saved_players[ign] = "Nick"
+                nicks.append(ign)
+                continue
+            elif err.args[0] == "Repeat":
+                if ign in saved_players:
+                    threat_anal = saved_players[ign]
+                else:
+                    print("Warning: Player " + ign + " currently on cooldown.")
+                    continue
+            else:
+                print(f"Unexpected {err=}, {type(err)=}")
+                raise
 
-        if threat_anal == "Repeat":
-            threat_anal = saved_players[ign]
+        saved_players[ign] = threat_anal
 
-        if threat_anal == ["", ""] or threat_anal is None:
-            saved_players[ign] = threat_anal
-        elif threat_anal == "Nick":
-            saved_players[ign] = threat_anal
-            nicks.append(ign)
-        else:
-            result += threat_anal[0] + "\n" + threat_anal[1] + "\n"
-            saved_players[ign] = threat_anal
-            threats.append(ign)
+        if threat_anal == ["", ""]:
+            continue
 
-            if threat_anal[1] != "":
-                sweats.append(ign)
+        result += threat_anal[0] + "\n" + threat_anal[1] + "\n"
+        threats.append(ign)
+
+        if threat_anal[1] != "":
+            sweats.append(ign)
 
     print(str(len(ign_list)) + " players found:")
     print(*ign_list, sep=", ")
@@ -239,16 +251,22 @@ def automatic_detection():
 
 
 def analyze_ign(user_input, key):
-    temp_result = player.get_player(user_input, key)
-
-    if temp_result is None or temp_result == "Nick":
-        print("Player not found or input not recognized.\n")
-    elif temp_result == ["", ""]:
-        saved_players[user_input] = temp_result
-        print("This player is not a threat.")
-    elif temp_result == "Repeat":
-        temp_result = saved_players[user_input]
-        print(f"{temp_result[0]}\n{temp_result[1]}")
+    try:
+        temp_result = player.get_player(user_input, key)
+    except NameError as err:
+        if err.args[0] == "No data":
+            print("Player not found or input not recognized.\n")
+        elif err.args[0] == "Nick":
+            print("This is a nick!")
+        elif err.args[0] == "Repeat":
+            if user_input in saved_players:
+                temp_result = saved_players[user_input]
+                print(f"{temp_result[0]}\n{temp_result[1]}")
+            else:
+                print("This player is currently on cooldown, please try again later.")
+        else:
+            print(f"Unexpected {err=}, {type(err)=}")
+            raise
     else:
         saved_players[user_input] = temp_result
         print(f"{temp_result[0]}\n{temp_result[1]}")

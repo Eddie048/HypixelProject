@@ -56,11 +56,11 @@ def get_player(player_name, key):
     threat = ["", ""]
 
     if data is None:
-        return
+        raise NameError("No data")
     if not data["success"]:
-        return "Repeat"
+        raise NameError("Repeat")
     if data['player'] == "None" or data['player'] is None:
-        return "Nick"
+        raise NameError("Nick")
 
     bedwars_stats = get_stat(["player", "stats", "Bedwars"])
     if bedwars_stats == -1:
