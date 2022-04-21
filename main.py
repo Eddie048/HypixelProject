@@ -1,11 +1,13 @@
-import subprocess
-import pyautogui
-import time
 import os
+import subprocess
+import time
+from threading import Thread
+
+import pyautogui
+import requests
+
 import image_reader
 import player
-from threading import Thread
-import requests
 
 # Ignore these usernames, anyone who is in your party should be in this list
 # TODO: Move this to a file
